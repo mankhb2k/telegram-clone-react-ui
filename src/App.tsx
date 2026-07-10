@@ -29,7 +29,7 @@ export default function App() {
   // Rename Chat Handler
   const handleRenameChat = () => {
     const newName = prompt(
-      "Nhập tên mới cho cuộc trò chuyện:",
+      "Enter new name for the conversation:",
       activeChat.name,
     );
     if (newName && newName.trim()) {
@@ -46,7 +46,7 @@ export default function App() {
 
   // Archive Chat Handler
   const handleArchiveChat = () => {
-    alert(`Đã đưa cuộc trò chuyện "${activeChat.name}" vào Lưu trữ.`);
+    alert(`Moved conversation "${activeChat.name}" to Archive.`);
     const remainingChats = chats.filter((c) => c.id !== activeChat.id);
     setChats(remainingChats);
     if (remainingChats.length > 0) {
@@ -58,7 +58,7 @@ export default function App() {
   const handleDeleteChat = () => {
     if (
       confirm(
-        `Bạn có chắc chắn muốn xoá cuộc trò chuyện "${activeChat.name}" không?`,
+        `Are you sure you want to delete the conversation "${activeChat.name}"?`,
       )
     ) {
       const remainingChats = chats.filter((c) => c.id !== activeChat.id);

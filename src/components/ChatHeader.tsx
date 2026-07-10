@@ -97,24 +97,24 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         >
           <DropdownItem 
             icon={<SquarePen size={18} />} 
-            label="Đổi tên" 
+            label="Rename" 
             onClick={() => { setIsHeaderMenuOpen(false); onRenameChat(); }} 
           />
           <DropdownItem 
             icon={<Archive size={18} />} 
-            label="Lưu trữ" 
+            label="Archive" 
             onClick={() => { setIsHeaderMenuOpen(false); onArchiveChat(); }} 
           />
-          <DropdownItem icon={<Video size={18} />} label="Cuộc gọi Video" />
-          <DropdownItem icon={<BellOff size={18} />} label="Tắt thông báo" />
-          <DropdownItem icon={<CheckCircle size={18} />} label="Chọn tin nhắn" />
-          <DropdownItem icon={<Gift size={18} />} label="Gửi quà tặng" />
-          <DropdownItem icon={<DisableShareIcon className="w-[18px] h-[18px] text-gray-500 stroke-[2]" />} label="Tắt chia sẻ" />
-          <DropdownItem icon={<Ban size={18} />} label="Chặn người dùng" />
+          <DropdownItem icon={<Video size={18} />} label="Video Call" />
+          <DropdownItem icon={<BellOff size={18} />} label="Mute" />
+          <DropdownItem icon={<CheckCircle size={18} />} label="Select Messages" />
+          <DropdownItem icon={<Gift size={18} />} label="Send Gift" />
+          <DropdownItem icon={<DisableShareIcon className="w-[18px] h-[18px] text-gray-500 stroke-[2]" />} label="Disable Share" />
+          <DropdownItem icon={<Ban size={18} />} label="Block User" />
           <DropdownSeparator />
           <DropdownItem 
             icon={<Trash2 size={18} />} 
-            label="Xoá cuộc trò chuyện" 
+            label="Delete Chat" 
             danger 
             onClick={() => { setIsHeaderMenuOpen(false); onDeleteChat(); }} 
           />
