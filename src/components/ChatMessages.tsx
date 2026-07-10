@@ -37,12 +37,12 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
               >
                 <div className="relative group max-w-[70%] select-text">
                   {/* Big emoji size */}
-                  <span className="text-[48px] leading-tight select-all filter drop-shadow-sm">
+                  <span className="text-emoji leading-tight select-all filter drop-shadow-sm">
                     {message.text}
                   </span>
 
                   {/* Sub-label time overlay */}
-                  <span className="absolute -bottom-1 -right-8 bg-black/35 backdrop-blur-xs text-white text-[9.5px] px-1.5 py-0.5 rounded-full select-none font-medium flex items-center gap-0.5">
+                  <span className="absolute -bottom-1 -right-8 bg-black/35 backdrop-blur-xs text-white text-xs px-1.5 py-0.5 rounded-full select-none font-medium flex items-center gap-0.5">
                     {message.time}
                     {isMe &&
                       (message.read ? (
@@ -62,7 +62,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
               className={`flex w-full mb-1 ${isMe ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-[75%] px-3.5 py-1.5 relative shadow-xs text-[14.5px] leading-[1.4] select-text break-words 
+                className={`max-w-[75%] px-3.5 py-1.5 relative shadow-xs text-base leading-[1.4] select-text break-words 
                   ${
                     isMe
                       ? "bg-[#eeffde] text-gray-900 rounded-2xl rounded-br-[4px]"
@@ -73,7 +73,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
 
                 {/* Timestamp + status */}
                 <div
-                  className={`absolute bottom-1 right-2.5 flex items-center gap-1 text-[10px] select-none ${isMe ? "text-[#53864a]" : "text-gray-400"}`}
+                  className={`absolute bottom-1 right-2.5 flex items-center gap-1 text-xs select-none ${isMe ? "text-[#53864a]" : "text-gray-400"}`}
                 >
                   <span>{message.time}</span>
                   {isMe &&

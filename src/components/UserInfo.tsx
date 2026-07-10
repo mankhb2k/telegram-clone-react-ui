@@ -45,7 +45,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
               <X size={20} className="stroke-[2.2]" />
             )}
           </button>
-          <h2 className="font-bold text-[16px] text-gray-900 transition-all duration-150">
+          <h2 className="font-bold text-xl text-gray-900 transition-all duration-150">
             {isFullyScrolled ? activeMediaTab : "User Info"}
           </h2>
         </div>
@@ -75,10 +75,10 @@ export const UserInfo: React.FC<UserInfoProps> = ({
               {activeChat.avatarText}
             </div>
           )}
-          <h2 className="font-bold text-[17px] text-gray-900 text-center px-4 leading-tight">
+          <h2 className="font-bold text-2xl text-gray-900 text-center px-4 leading-tight">
             {activeChat.name}
           </h2>
-          <p className="text-[12.5px] text-gray-400 mt-1">
+          <p className="text-sm text-gray-400 mt-1">
             {activeChat.status}
           </p>
         </div>
@@ -91,10 +91,10 @@ export const UserInfo: React.FC<UserInfoProps> = ({
               <PhoneIcon />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[14.5px] text-gray-900 font-medium truncate">
+              <p className="text-base text-gray-900 font-medium truncate">
                 {activeChat.phone || "Hidden"}
               </p>
-              <p className="text-[12px] text-gray-400 font-normal">Phone</p>
+              <p className="text-sm text-gray-400 font-normal">Phone</p>
             </div>
           </div>
 
@@ -104,7 +104,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
               <div className="flex-shrink-0 text-gray-400">
                 <Bell size={20} className="stroke-[2]" />
               </div>
-              <span className="text-[14.5px] text-gray-800 font-medium">
+              <span className="text-base text-gray-800 font-medium">
                 Notifications
               </span>
             </div>
@@ -122,7 +122,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
 
         {/* Shared Content Sub-tabs (Sticky) */}
         <div className="sticky top-0 bg-[#f4f4f5] pt-1 pb-3 z-10">
-          <div className="bg-white rounded-full mx-3 shadow-sm flex gap-0.5 p-1 overflow-x-auto hide-scrollbar text-[13.5px] font-semibold text-gray-500">
+          <div className="bg-white rounded-full mx-3 shadow-sm flex gap-0.5 p-1 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500">
             {["Media", "Files", "Links", "Music", "GIF", "Voice"].map((tab) => {
               const isActive = activeMediaTab === tab;
               return (
@@ -131,7 +131,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
                   onClick={() => setActiveMediaTab(tab)}
                   className={`px-4 py-1.5 rounded-full whitespace-nowrap cursor-pointer transition-colors ${
                     isActive
-                      ? "bg-[#e4efff] text-[#3390ec]"
+                      ? "bg-blue-light text-blue"
                       : "hover:text-gray-700 text-gray-400"
                   }`}
                 >
@@ -161,12 +161,12 @@ export const UserInfo: React.FC<UserInfoProps> = ({
                 ))}
               </div>
             ) : (
-              <div className="text-center flex-1 flex items-center justify-center text-gray-400 text-[13.5px]">
+              <div className="text-center flex-1 flex items-center justify-center text-gray-400 text-md">
                 No shared media
               </div>
             )
           ) : (
-            <div className="text-center flex-1 flex items-center justify-center text-gray-400 text-[13.5px]">
+            <div className="text-center flex-1 flex items-center justify-center text-gray-400 text-md">
               No shared {activeMediaTab.toLowerCase()}
             </div>
           )}

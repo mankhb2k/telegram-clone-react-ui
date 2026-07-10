@@ -55,10 +55,10 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           </div>
         )}
         <div className="flex flex-col min-w-0 gap-[1.5px] justify-center">
-          <span className="font-bold text-[14.5px] text-[#08060d] leading-none truncate">
+          <span className="font-bold text-base text-[#08060d] leading-none truncate">
             {activeChat.name}
           </span>
-          <span className="text-[11.5px] text-[#6b6375] font-normal leading-none truncate">
+          <span className="text-xs text-[#6b6375] font-normal leading-none truncate">
             {activeChat.status}
           </span>
         </div>

@@ -66,7 +66,7 @@ export const ChatList: React.FC<ChatListProps> = ({
                    M
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
-                  <span className="font-semibold text-[14.5px] text-gray-900 truncate leading-none">mantv02</span>
+                  <span className="font-semibold text-base text-gray-900 truncate leading-none">mantv02</span>
                 </div>
               </div>
               <DropdownSeparator />
@@ -98,7 +98,7 @@ export const ChatList: React.FC<ChatListProps> = ({
               placeholder="Search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#f1f5f9] text-gray-800 rounded-full py-2 pl-10 pr-4 text-[14.5px] placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#3390ec] transition-all"
+              className="w-full bg-[#f1f5f9] text-gray-800 rounded-full py-2 pl-10 pr-4 text-base placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#3390ec] transition-all"
             />
           </div>
           {/* User Profile Avatar in Header */}
@@ -108,7 +108,7 @@ export const ChatList: React.FC<ChatListProps> = ({
         </div>
 
         {/* Folder Tabs with Pill Styles */}
-        <div className="flex gap-2 overflow-x-auto hide-scrollbar text-[13.5px] font-semibold text-gray-500 py-1">
+        <div className="flex gap-2 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500 py-1">
           {["All", "Video", "Demo 2", "Demo 3", "Demo 4", "Demo 6"].map(
             (tab) => {
               const isActive = activeTab === tab;
@@ -116,7 +116,7 @@ export const ChatList: React.FC<ChatListProps> = ({
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap cursor-pointer ${isActive ? "bg-[#e4efff] text-[#2f80ed]" : "hover:bg-gray-100 text-gray-500"}`}
+                  className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap cursor-pointer ${isActive ? "bg-blue-light text-blue" : "hover:bg-gray-100 text-gray-500"}`}
                 >
                   {tab}
                 </button>
@@ -127,7 +127,7 @@ export const ChatList: React.FC<ChatListProps> = ({
       </div>
 
       {/* Chat List Scroll Container */}
-      <div className="flex-1 overflow-y-auto divide-y divide-gray-100/50">
+      <div className="flex-1 overflow-y-auto py-1.5 flex flex-col gap-0.5">
         {filteredChats.map((chat) => {
           const isSelected = chat.id === activeChatId;
           const lastMsg = chat.messages[chat.messages.length - 1];
@@ -136,7 +136,11 @@ export const ChatList: React.FC<ChatListProps> = ({
             <div
               key={chat.id}
               onClick={() => setActiveChatId(chat.id)}
-              className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors relative ${isSelected ? "bg-[#3390ec] text-white" : "hover:bg-gray-50 bg-white"}`}
+              className={`flex items-center gap-3 px-3 py-2.5 mx-2 rounded-xl cursor-pointer transition-all relative ${
+                isSelected 
+                  ? "bg-blue-light text-gray-900" 
+                  : "hover:bg-gray-100/70 bg-white text-gray-900"
+              }`}
             >
               {/* Avatar / Icon */}
               <div className="relative flex-shrink-0">
@@ -154,29 +158,25 @@ export const ChatList: React.FC<ChatListProps> = ({
                   </div>
                 )}
                 {chat.status === "online" && (
-                  <div className="absolute bottom-0 right-0 w-[12px] h-[12px] bg-[#4ec163] border-2 border-white rounded-full"></div>
+                  <div className="absolute bottom-0 right-0 w-[12px] h-[12px] bg-green border-2 border-white rounded-full"></div>
                 )}
               </div>
 
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-baseline mb-1">
-                  <h3
-                    className={`font-semibold text-[14.5px] truncate pr-1 ${isSelected ? "text-white" : "text-gray-900"}`}
-                  >
+                  <h3 className="font-semibold text-base text-gray-900 truncate pr-1">
                     {chat.name}
                   </h3>
                   <span
-                    className={`text-[12px] whitespace-nowrap ${isSelected ? "text-blue-100" : "text-gray-400"}`}
+                    className={`text-sm whitespace-nowrap ${isSelected ? "text-blue font-medium" : "text-gray-400"}`}
                   >
                     {lastMsg ? lastMsg.time : ""}
                   </span>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <p
-                    className={`text-[13.5px] truncate pr-2 ${isSelected ? "text-blue-100" : "text-gray-500"}`}
-                  >
+                  <p className="text-md text-gray-500 truncate pr-2">
                     {lastMsg ? (
                       lastMsg.sender === "me" ? (
                         <span>
@@ -195,17 +195,9 @@ export const ChatList: React.FC<ChatListProps> = ({
                   {lastMsg && lastMsg.sender === "me" && (
                     <span className="flex-shrink-0">
                       {lastMsg.read ? (
-                        <DoubleCheck
-                          className={
-                            isSelected ? "text-white" : "text-[#4ec163]"
-                          }
-                        />
+                        <DoubleCheck className="text-green" />
                       ) : (
-                        <SingleCheck
-                          className={
-                            isSelected ? "text-white" : "text-gray-400"
-                          }
-                        />
+                        <SingleCheck className="text-gray-400" />
                       )}
                     </span>
                   )}
