@@ -104,7 +104,9 @@ export default function App() {
           __html: `
         .chat-wallpaper {
           background-color: #95c391;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M5 10c0-2.8 2.2-5 5-5s5 2.2 5 5-2.2 5-5 5-5-2.2-5-5zm40 0c0-2.8 2.2-5 5-5s5 2.2 5 5-2.2 5-5 5-5-2.2-5-5zM10 50c0-2.8 2.2-5 5-5s5 2.2 5 5-2.2 5-5 5-5-2.2-5-5zm40 0c0-2.8 2.2-5 5-5s5 2.2 5 5-2.2 5-5 5-5-2.2-5-5z'/%3E%3Ccircle cx='25' cy='25' r='2'/%3E%3Ccircle cx='65' cy='25' r='2'/%3E%3Ccircle cx='25' cy='65' r='2'/%3E%3Ccircle cx='65' cy='65' r='2'/%3E%3C/g%3E%3C/svg%3E");
+          background-image: url("/telegram-doodle.svg");
+          background-size: 375px 812px;
+          background-repeat: repeat;
         }
       `,
         }}
