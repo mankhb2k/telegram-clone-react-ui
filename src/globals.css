@@ -13,6 +13,20 @@
   --radius-tg-card: 24px;
   --radius-tg-dropdown: 14px;
   --radius-tg-dropdown-item: 10px;
+
+  /* Telegram Typography Font Sizes */
+  --font-size-tg-9-5: 9.5px;
+  --font-size-tg-10: 10px;
+  --font-size-tg-11-5: 11.5px;
+  --font-size-tg-12: 12px;
+  --font-size-tg-12-5: 12.5px;
+  --font-size-tg-13-5: 13.5px;
+  --font-size-tg-14: 14px;
+  --font-size-tg-14-5: 14.5px;
+  --font-size-tg-15: 15px;
+  --font-size-tg-16: 16px;
+  --font-size-tg-17: 17px;
+  --font-size-tg-emoji: 48px;
 }
 
 body {
