@@ -56,7 +56,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
 
       <div 
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto thin-scrollbar pb-4"
+        className="flex-1 overflow-y-auto thin-scrollbar pb-3"
       >
         {/* Large Avatar & Contact Name */}
         <div className="flex flex-col items-center pt-2 pb-6">
@@ -141,7 +141,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
         </div>
 
         {/* Tab Content Wrapper (Centralized Scroll height) */}
-        <div className="min-h-[calc(100vh-100px)] pb-10 flex flex-col">
+        <div className="min-h-[calc(100vh-100px)] flex flex-col">
           {activeMediaTab === "Media" ? (
             activeChat.sharedMedia && activeChat.sharedMedia.length > 0 ? (
               <div className="grid grid-cols-3 gap-[2px] px-3">
