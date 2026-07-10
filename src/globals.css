@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@theme {
+  /* Telegram Branding Colors */
+  --color-tg-blue: #3390ec;
+  --color-tg-blue-hover: #2481db;
+  --color-tg-blue-light: #e4efff;
+  --color-tg-green: #4ec163;
+  --color-tg-bg: #f4f4f5;
+  --color-tg-card: #ffffff;
+  
+  /* Concentric border radius rules */
+  --radius-tg-card: 24px;
+  --radius-tg-dropdown: 14px;
+  --radius-tg-dropdown-item: 10px;
+}
+
 body {
   margin: 0;
   background-color: #7da37b;

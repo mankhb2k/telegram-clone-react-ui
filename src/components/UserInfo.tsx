@@ -25,11 +25,13 @@ export const UserInfo: React.FC<UserInfoProps> = ({
   const isFullyScrolled = scrollTop >= 310;
 
   return (
-    <div className="w-[320px] lg:w-[350px] bg-[#f4f4f5] rounded-2xl shadow-lg flex flex-col flex-shrink-0 overflow-hidden animate-in slide-in-from-right duration-200">
+    <div className="w-[360px] lg:w-[400px] h-full bg-[#f4f4f5] rounded-2xl shadow-lg flex flex-col flex-shrink-0 overflow-hidden animate-in slide-in-from-right duration-200">
       {/* Header */}
-      <div 
+      <div
         className={`h-14 px-4 flex items-center justify-between flex-shrink-0 bg-[#f4f4f5] transition-all duration-200 ${
-          isScrolled && !isFullyScrolled ? "border-b border-gray-200/80 shadow-xs" : "border-b border-transparent"
+          isScrolled && !isFullyScrolled
+            ? "border-b border-gray-200/80 shadow-xs"
+            : "border-b border-transparent"
         }`}
       >
         <div className="flex items-center gap-3">
@@ -54,7 +56,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
         )}
       </div>
 
-      <div 
+      <div
         onScroll={handleScroll}
         className="flex-1 overflow-y-auto thin-scrollbar pb-3"
       >
