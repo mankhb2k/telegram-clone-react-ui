@@ -140,33 +140,35 @@ export const UserInfo: React.FC<UserInfoProps> = ({
           </div>
         </div>
 
-        {/* Media Items Area */}
-        {activeMediaTab === "Media" ? (
-          activeChat.sharedMedia && activeChat.sharedMedia.length > 0 ? (
-            <div className="grid grid-cols-3 gap-[2px] px-3">
-              {activeChat.sharedMedia.map((url, idx) => (
-                <div
-                  key={idx}
-                  className="aspect-square bg-gray-100 overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
-                >
-                  <img
-                    src={url}
-                    alt={`Shared ${idx}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+        {/* Tab Content Wrapper (Centralized Scroll height) */}
+        <div className="min-h-[calc(100vh-100px)] pb-10 flex flex-col">
+          {activeMediaTab === "Media" ? (
+            activeChat.sharedMedia && activeChat.sharedMedia.length > 0 ? (
+              <div className="grid grid-cols-3 gap-[2px] px-3">
+                {activeChat.sharedMedia.map((url, idx) => (
+                  <div
+                    key={idx}
+                    className="aspect-square bg-gray-100 overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
+                  >
+                    <img
+                      src={url}
+                      alt={`Shared ${idx}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center flex-1 flex items-center justify-center text-gray-400 text-[13.5px]">
+                No shared media
+              </div>
+            )
           ) : (
-            <div className="text-center min-h-[calc(100vh-100px)] flex items-center justify-center text-gray-400 text-[13.5px]">
-              No shared media
+            <div className="text-center flex-1 flex items-center justify-center text-gray-400 text-[13.5px]">
+              No shared {activeMediaTab.toLowerCase()}
             </div>
-          )
-        ) : (
-          <div className="text-center min-h-[calc(100vh-100px)] flex items-center justify-center text-gray-400 text-[13.5px]">
-            No shared {activeMediaTab.toLowerCase()}
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
