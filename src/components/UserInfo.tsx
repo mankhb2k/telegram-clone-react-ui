@@ -25,7 +25,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
   const isFullyScrolled = scrollTop >= 310;
 
   return (
-    <div className="w-[360px] lg:w-[400px] h-full bg-[#f4f4f5] rounded-2xl shadow-lg flex flex-col flex-shrink-0 overflow-hidden animate-in slide-in-from-right duration-200">
+    <div className="w-[22.5rem] lg:w-[28.125rem] h-full bg-[#f4f4f5] rounded-2xl shadow-lg flex flex-col flex-shrink-0 overflow-hidden animate-in slide-in-from-right duration-200">
       {/* Header */}
       <div
         className={`h-14 px-4 flex items-center justify-between flex-shrink-0 bg-[#f4f4f5] transition-all duration-200 ${
