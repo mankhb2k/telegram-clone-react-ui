@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Share2 } from "lucide-react";
 
 // Custom SVGs for Telegram UI icons to match 100% pixel-perfection
