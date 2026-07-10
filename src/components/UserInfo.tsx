@@ -143,21 +143,19 @@ export const UserInfo: React.FC<UserInfoProps> = ({
         {/* Media Items Area */}
         {activeMediaTab === "Media" ? (
           activeChat.sharedMedia && activeChat.sharedMedia.length > 0 ? (
-            <div className="bg-white rounded-[24px] mx-3 shadow-sm p-[3px] overflow-hidden">
-              <div className="grid grid-cols-3 gap-[3px] rounded-[21px] overflow-hidden">
-                {activeChat.sharedMedia.map((url, idx) => (
-                  <div
-                    key={idx}
-                    className="aspect-square bg-gray-100 overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
-                  >
-                    <img
-                      src={url}
-                      alt={`Shared ${idx}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+            <div className="grid grid-cols-3 gap-[2px] px-3">
+              {activeChat.sharedMedia.map((url, idx) => (
+                <div
+                  key={idx}
+                  className="aspect-square bg-gray-100 overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
+                >
+                  <img
+                    src={url}
+                    alt={`Shared ${idx}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
             </div>
           ) : (
             <div className="text-center min-h-[calc(100vh-100px)] flex items-center justify-center text-gray-400 text-[13.5px]">
