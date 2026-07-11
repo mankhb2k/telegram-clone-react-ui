@@ -24,7 +24,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
 
   return (
     <div className="flex-1 bg-transparent p-4 flex flex-col overflow-y-auto min-h-0">
-      <div className="flex flex-col gap-2 mt-auto">
+      <div className="w-full max-w-[720px] mx-auto flex flex-col gap-2 mt-auto">
         {messages.map((message) => {
           const isMe = message.sender === "me";
           const isSingleEmoji = isEmojiOnly(message.text);

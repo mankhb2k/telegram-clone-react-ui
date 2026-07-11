@@ -23,7 +23,7 @@ export const ChatComposer: React.FC<ChatComposerProps> = ({
   };
 
   return (
-    <div className="px-4 pb-4 pt-1.5 flex items-center gap-2 flex-shrink-0 z-10 bg-transparent">
+    <div className="w-full max-w-[720px] mx-auto px-4 pb-4 pt-1.5 flex items-center gap-2 flex-shrink-0 z-10 bg-transparent">
       {/* Main text input pill */}
       <div className="flex-1 bg-white rounded-2xl flex items-center px-3 py-1 shadow-sm border border-gray-200/10">
         <button className="text-gray-400 hover:text-gray-600 p-2.5 rounded-full hover:bg-gray-50 transition-colors">

@@ -120,7 +120,7 @@ export default function App() {
       />
 
       {/* ================= COLUMN 2: CHAT CONTAINER ================= */}
-      <div className="flex-1 chat-wallpaper rounded-2xl shadow-lg flex flex-col overflow-hidden min-w-0 relative">
+      <div className="flex-1 chat-wallpaper rounded-2xl shadow-lg flex flex-col overflow-hidden min-w-0 relative transition-all duration-300 ease-in-out">
         <ChatHeader
           activeChat={activeChat}
           isRightPanelOpen={isRightPanelOpen}
@@ -137,13 +137,19 @@ export default function App() {
       </div>
 
       {/* ================= COLUMN 3: USER INFO PANEL ================= */}
-      {isRightPanelOpen && (
+      <div
+        className={`transition-all duration-300 ease-in-out flex flex-shrink-0 overflow-hidden ${
+          isRightPanelOpen
+            ? "w-[22.5rem] lg:w-[28.125rem] opacity-100"
+            : "w-0 opacity-0 pointer-events-none -ml-3"
+        }`}
+      >
         <UserInfo
           activeChat={activeChat}
           setIsRightPanelOpen={setIsRightPanelOpen}
           onToggleNotifications={handleToggleNotifications}
         />
-      )}
+      </div>
     </div>
   );
 }
