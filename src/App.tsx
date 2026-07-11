@@ -140,7 +140,7 @@ export function App() {
       <div
         className={`transition-all duration-300 ease-in-out flex flex-shrink-0 overflow-hidden rounded-2xl ${
           isRightPanelOpen
-            ? "w-[22.5rem] lg:w-[28.125rem] opacity-100 shadow-xl"
+            ? "w-[22.5rem] lg:w-[28.125rem] opacity-100 shadow-xl shadow-[0_-10px_30px_-5px_rgba(0,0,0,0.08)]"
             : "w-0 opacity-0 pointer-events-none -ml-3 shadow-none"
         }`}
       >
