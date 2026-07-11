@@ -155,7 +155,7 @@ export const DropdownSubContent: React.FC<DropdownSubContentProps> = ({
 
   return (
     <div
-      className={`absolute left-[calc(100%+4px)] top-0 z-50 w-[200px] bg-white/95 backdrop-blur-md rounded-dropdown shadow-[0_4px_24px_rgba(0,0,0,0.12)] border border-gray-100/30 p-[4px] text-md text-gray-600 text-left font-medium animate-in fade-in zoom-in-95 duration-100 select-none ${className}`}
+      className={`absolute left-[calc(100%-8px)] top-[-4px] z-50 w-[200px] bg-white/95 backdrop-blur-md rounded-dropdown shadow-[0_4px_24px_rgba(0,0,0,0.12)] border border-gray-100/30 p-[4px] text-md text-gray-600 text-left font-medium animate-in fade-in zoom-in-95 duration-100 select-none ${className}`}
     >
       {children}
     </div>
