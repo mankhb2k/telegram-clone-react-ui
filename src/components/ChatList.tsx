@@ -3,7 +3,7 @@ import { Menu, Search, Plus, User, Bookmark, Users, Wallet, Settings, MoreVertic
 import { DoubleCheck, SingleCheck } from "./icons";
 import { DropdownContent, DropdownItem, DropdownSeparator } from "./ui/Dropdown/Dropdown";
 import { Avatar } from "./ui/Avatar/Avatar";
-import { ScrollTabs } from "./ui/ScrollTabs/ScrollTabs";
+import { Tabs, TabsList, TabsTrigger } from "./ui/Tabs/Tabs";
 import type { Chat } from "../types";
 
 export interface ChatListProps {
@@ -137,12 +137,16 @@ export const ChatList: React.FC<ChatListProps> = ({
         </div>
 
         {/* Folder Tabs with Pill Styles */}
-        <ScrollTabs
-          tabs={["All", "Video", "Demo 2", "Demo 3", "Demo 4", "Demo 6"]}
-          activeTab={activeTab}
-          onChange={setActiveTab}
-          variant="pills"
-        />
+        <Tabs value={activeTab} onValueChange={setActiveTab} variant="pills">
+          <TabsList>
+            <TabsTrigger value="All">All</TabsTrigger>
+            <TabsTrigger value="Video">Video</TabsTrigger>
+            <TabsTrigger value="Demo 2">Demo 2</TabsTrigger>
+            <TabsTrigger value="Demo 3">Demo 3</TabsTrigger>
+            <TabsTrigger value="Demo 4">Demo 4</TabsTrigger>
+            <TabsTrigger value="Demo 6">Demo 6</TabsTrigger>
+          </TabsList>
+        </Tabs>
       </div>
 
       {/* Chat List Scroll Container */}

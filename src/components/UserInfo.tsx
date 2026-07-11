@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { X, Pen, Bell, ArrowLeft } from "lucide-react";
 import { PhoneIcon } from "./icons";
 import { Avatar } from "./ui/Avatar/Avatar";
-import { ScrollTabs } from "./ui/ScrollTabs/ScrollTabs";
+import { Tabs, TabsList, TabsTrigger } from "./ui/Tabs/Tabs";
 import type { Chat } from "../types";
 
 export interface UserInfoProps {
@@ -119,13 +119,24 @@ export const UserInfo: React.FC<UserInfoProps> = ({
 
         {/* Shared Content Sub-tabs (Sticky) */}
         <div className="sticky top-0 bg-[#f4f4f5] pt-1 pb-3 z-10">
-          <ScrollTabs
-            tabs={["Media", "Files", "Links", "Music", "GIF", "Voice", "Stories", "Calls", "Groups"]}
-            activeTab={activeMediaTab}
-            onChange={setActiveMediaTab}
+          <Tabs
+            value={activeMediaTab}
+            onValueChange={setActiveMediaTab}
             variant="capsule"
             className="px-3"
-          />
+          >
+            <TabsList>
+              <TabsTrigger value="Media">Media</TabsTrigger>
+              <TabsTrigger value="Files">Files</TabsTrigger>
+              <TabsTrigger value="Links">Links</TabsTrigger>
+              <TabsTrigger value="Music">Music</TabsTrigger>
+              <TabsTrigger value="GIF">GIF</TabsTrigger>
+              <TabsTrigger value="Voice">Voice</TabsTrigger>
+              <TabsTrigger value="Stories">Stories</TabsTrigger>
+              <TabsTrigger value="Calls">Calls</TabsTrigger>
+              <TabsTrigger value="Groups">Groups</TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
 
         {/* Tab Content Wrapper (Centralized Scroll height) */}
