@@ -172,7 +172,7 @@ export const ChatList: React.FC<ChatListProps> = ({
       </div>
 
       {/* Chat List Scroll Container */}
-      <div className="flex-1 overflow-y-auto py-1.5 flex flex-col gap-0.5 rounded-b-2xl mr-[3px]">
+      <div className="flex-1 overflow-y-auto thin-scrollbar pt-1.5 pb-3 mb-3 flex flex-col gap-0.5 mr-[3px]">
         {filteredChats.map((chat) => {
           const isSelected = chat.id === activeChatId;
           const lastMsg = chat.messages[chat.messages.length - 1];
