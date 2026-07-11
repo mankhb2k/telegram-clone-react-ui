@@ -2,6 +2,9 @@ import React, { useRef, useEffect } from "react";
 import { DoubleCheck, SingleCheck } from "./icons";
 import { isEmojiOnly } from "../utils";
 import type { Message } from "../types";
+import emojiListMap from "./emoji-list.json";
+
+const LOCAL_EMOJIS = new Set(Object.keys(emojiListMap));
 
 export interface ChatMessagesProps {
   messages: Message[];
@@ -30,16 +33,41 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
           const isSingleEmoji = isEmojiOnly(message.text);
 
           if (isSingleEmoji) {
+            const trimmedText = message.text.trim();
+            const emojis = Array.from(trimmedText.replace(/\s+/g, ""));
+            const canAnimateAll = emojis.length > 0 && emojis.every((emoji) => LOCAL_EMOJIS.has(emoji));
+            
+            const emojiItems = emojis.map((emoji, idx) => {
+              const relativePath = emojiListMap[emoji as keyof typeof emojiListMap] || "";
+              return {
+                emoji,
+                key: `${message.id}-${idx}`,
+                localPath: `/emoji/${relativePath}`,
+              };
+            });
+
             return (
               <div
                 key={message.id}
                 className={`flex w-full mb-2 ${isMe ? "justify-end" : "justify-start"}`}
               >
                 <div className="relative group max-w-[70%] select-text">
-                  {/* Big emoji size */}
-                  <span className="text-emoji leading-tight select-all filter drop-shadow-sm">
-                    {message.text}
-                  </span>
+                  {canAnimateAll ? (
+                    <div className="flex gap-1.5 items-center">
+                      {emojiItems.map((item) => (
+                        <img
+                          key={item.key}
+                          src={item.localPath}
+                          alt={item.emoji}
+                          className="w-14 h-14 object-contain filter drop-shadow-sm select-none"
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-emoji leading-tight select-all filter drop-shadow-sm">
+                      {message.text}
+                    </span>
+                  )}
 
                   {/* Sub-label time overlay */}
                   <span className="absolute -bottom-1 -right-8 bg-black/35 backdrop-blur-xs text-white text-xs px-1.5 py-0.5 rounded-full select-none font-medium flex items-center gap-0.5">

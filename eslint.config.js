@@ -30,12 +30,14 @@ const typescriptRules = {
 
 export default tseslint.config(
   {
-    // Ignores build outputs and configurations
     ignores: [
       "dist/**",
       "node_modules/**",
       "vite.config.ts",
-      "eslint.config.js"
+      "eslint.config.js",
+      "scratch/**",
+      "temp-emojis/**",
+      "temp-noto-emoji/**"
     ],
   },
   eslint.configs.recommended,

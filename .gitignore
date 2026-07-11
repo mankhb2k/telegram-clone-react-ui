@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Temporary cloned repos and developer scratch scripts
+temp-emojis
+temp-noto-emoji
+scratch
