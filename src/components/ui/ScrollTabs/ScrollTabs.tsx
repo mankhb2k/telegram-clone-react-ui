@@ -73,23 +73,6 @@ export const ScrollTabs: React.FC<ScrollTabsProps> = ({
     onChange(tab);
   };
 
-  // Generate background-agnostic fading mask style using CSS linear-gradients
-  const getMaskStyle = (): React.CSSProperties => {
-    const maskStr =
-      showLeftFade && showRightFade
-        ? "linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent)"
-        : showLeftFade
-        ? "linear-gradient(to right, transparent, black 24px, black 100%)"
-        : showRightFade
-        ? "linear-gradient(to right, black 0%, black calc(100% - 24px), transparent)"
-        : "none";
-
-    return {
-      maskImage: maskStr,
-      WebkitMaskImage: maskStr,
-    };
-  };
-
   // Predefined container and tab classes based on variants
   const containerClasses =
     variant === "capsule"
@@ -110,10 +93,27 @@ export const ScrollTabs: React.FC<ScrollTabsProps> = ({
 
   return (
     <div className={`relative w-full ${className}`}>
+      {/* Left solid-to-transparent overlay */}
+      {showLeftFade && (
+        <div
+          className={`absolute left-0 top-0 bottom-0 w-8 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent z-10 ${
+            variant === "capsule" ? "rounded-l-full ml-[1px] my-[1px]" : ""
+          }`}
+        />
+      )}
+
+      {/* Right solid-to-transparent overlay */}
+      {showRightFade && (
+        <div
+          className={`absolute right-0 top-0 bottom-0 w-8 pointer-events-none bg-gradient-to-l from-white via-white/80 to-transparent z-10 ${
+            variant === "capsule" ? "rounded-r-full mr-[1px] my-[1px]" : ""
+          }`}
+        />
+      )}
+
       <div
         ref={containerRef}
         className={containerClasses}
-        style={getMaskStyle()}
       >
         {tabs.map((tab) => {
           const isActive = tab === activeTab;
