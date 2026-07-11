@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Menu, Search, Plus, User, Bookmark, Users, Wallet, Settings, MoreVertical, ChevronRight } from "lucide-react";
+import { Menu, Search, Plus, User, Bookmark, Users, Wallet, Settings, MoreVertical, ChevronRight, SquarePen, MessageSquare } from "lucide-react";
 import { DoubleCheck, SingleCheck } from "./icons";
 import { DropdownContent, DropdownItem, DropdownSeparator } from "./ui/Dropdown/Dropdown";
+import { Avatar } from "./ui/Avatar/Avatar";
+import { ScrollTabs } from "./ui/ScrollTabs/ScrollTabs";
 import type { Chat } from "../types";
 
 export interface ChatListProps {
@@ -18,6 +20,7 @@ export const ChatList: React.FC<ChatListProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeTab, setActiveTab] = useState<string>("All");
   const [isSidebarMenuOpen, setIsSidebarMenuOpen] = useState(false);
+  const [isPenMenuOpen, setIsPenMenuOpen] = useState(false);
 
   // Real-time Chat List Filtering
   const filteredChats = chats.filter((chat) => {
@@ -101,29 +104,45 @@ export const ChatList: React.FC<ChatListProps> = ({
               className="w-full bg-[#f1f5f9] text-gray-800 rounded-full py-2 pl-10 pr-4 text-base placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#3390ec] transition-all"
             />
           </div>
-          {/* User Profile Avatar in Header */}
-          <div className="w-[38px] h-[38px] rounded-full overflow-hidden border border-gray-100 cursor-pointer hover:opacity-90 flex-shrink-0 bg-blue-500 flex items-center justify-center text-white font-semibold">
-            U
+          {/* Action Pen Menu */}
+          <div className="relative">
+            <button
+              onClick={() => setIsPenMenuOpen(!isPenMenuOpen)}
+              className={`p-2.5 rounded-full transition-colors cursor-pointer flex items-center justify-center ${
+                isPenMenuOpen
+                  ? "bg-gray-100 text-[#08060d]"
+                  : "text-gray-500 hover:bg-gray-100 hover:text-[#08060d]"
+              }`}
+              title="New Message"
+            >
+              <SquarePen size={20} className="stroke-[2.2]" />
+            </button>
+            <DropdownContent
+              isOpen={isPenMenuOpen}
+              onClose={() => setIsPenMenuOpen(false)}
+              align="right"
+            >
+              <DropdownItem
+                icon={<MessageSquare size={18} />}
+                label="Đoạn chat mới"
+                onClick={() => setIsPenMenuOpen(false)}
+              />
+              <DropdownItem
+                icon={<Users size={18} />}
+                label="Tạo nhóm"
+                onClick={() => setIsPenMenuOpen(false)}
+              />
+            </DropdownContent>
           </div>
         </div>
 
         {/* Folder Tabs with Pill Styles */}
-        <div className="flex gap-2 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500 py-1">
-          {["All", "Video", "Demo 2", "Demo 3", "Demo 4", "Demo 6"].map(
-            (tab) => {
-              const isActive = activeTab === tab;
-              return (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap cursor-pointer ${isActive ? "bg-blue-light text-blue" : "hover:bg-gray-100 text-gray-500"}`}
-                >
-                  {tab}
-                </button>
-              );
-            }
-          )}
-        </div>
+        <ScrollTabs
+          tabs={["All", "Video", "Demo 2", "Demo 3", "Demo 4", "Demo 6"]}
+          activeTab={activeTab}
+          onChange={setActiveTab}
+          variant="pills"
+        />
       </div>
 
       {/* Chat List Scroll Container */}
@@ -143,24 +162,14 @@ export const ChatList: React.FC<ChatListProps> = ({
               }`}
             >
               {/* Avatar / Icon */}
-              <div className="relative flex-shrink-0">
-                {chat.avatarUrl ? (
-                  <img
-                    src={chat.avatarUrl}
-                    alt={chat.name}
-                    className="w-[48px] h-[48px] rounded-full object-cover"
-                  />
-                ) : (
-                  <div
-                    className={`w-[48px] h-[48px] rounded-full flex items-center justify-center text-lg font-bold text-white uppercase ${chat.avatarBg || "bg-gray-400"}`}
-                  >
-                    {chat.avatarText}
-                  </div>
-                )}
-                {chat.status === "online" && (
-                  <div className="absolute bottom-0 right-0 w-[12px] h-[12px] bg-green border-2 border-white rounded-full"></div>
-                )}
-              </div>
+              <Avatar
+                src={chat.avatarUrl}
+                alt={chat.name}
+                text={chat.avatarText}
+                bg={chat.avatarBg}
+                size="md"
+                showOnlineStatus={chat.status === "online"}
+              />
 
               {/* Content */}
               <div className="flex-1 min-w-0">

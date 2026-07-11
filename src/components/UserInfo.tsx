@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { X, Pen, Bell, ArrowLeft } from "lucide-react";
 import { PhoneIcon } from "./icons";
+import { Avatar } from "./ui/Avatar/Avatar";
+import { ScrollTabs } from "./ui/ScrollTabs/ScrollTabs";
 import type { Chat } from "../types";
 
 export interface UserInfoProps {
@@ -62,19 +64,14 @@ export const UserInfo: React.FC<UserInfoProps> = ({
       >
         {/* Large Avatar & Contact Name */}
         <div className="flex flex-col items-center pt-2 pb-6">
-          {activeChat.avatarUrl ? (
-            <img
-              src={activeChat.avatarUrl}
-              alt={activeChat.name}
-              className="w-[100px] h-[100px] rounded-full object-cover shadow-sm mb-3.5"
-            />
-          ) : (
-            <div
-              className={`w-[100px] h-[100px] rounded-full flex items-center justify-center text-3xl font-bold text-white uppercase shadow-sm mb-3.5 ${activeChat.avatarBg || "bg-gray-400"}`}
-            >
-              {activeChat.avatarText}
-            </div>
-          )}
+          <Avatar
+            src={activeChat.avatarUrl}
+            alt={activeChat.name}
+            text={activeChat.avatarText}
+            bg={activeChat.avatarBg}
+            size="lg"
+            className="shadow-sm mb-3.5"
+          />
           <h2 className="font-bold text-2xl text-gray-900 text-center px-4 leading-tight">
             {activeChat.name}
           </h2>
@@ -122,24 +119,13 @@ export const UserInfo: React.FC<UserInfoProps> = ({
 
         {/* Shared Content Sub-tabs (Sticky) */}
         <div className="sticky top-0 bg-[#f4f4f5] pt-1 pb-3 z-10">
-          <div className="bg-white rounded-full mx-3 shadow-sm flex gap-0.5 p-1 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500">
-            {["Media", "Files", "Links", "Music", "GIF", "Voice"].map((tab) => {
-              const isActive = activeMediaTab === tab;
-              return (
-                <button
-                  key={tab}
-                  onClick={() => setActiveMediaTab(tab)}
-                  className={`px-4 py-1.5 rounded-full whitespace-nowrap cursor-pointer transition-colors ${
-                    isActive
-                      ? "bg-blue-light text-blue"
-                      : "hover:text-gray-700 text-gray-400"
-                  }`}
-                >
-                  {tab}
-                </button>
-              );
-            })}
-          </div>
+          <ScrollTabs
+            tabs={["Media", "Files", "Links", "Music", "GIF", "Voice", "Stories", "Calls", "Groups"]}
+            activeTab={activeMediaTab}
+            onChange={setActiveMediaTab}
+            variant="capsule"
+            className="px-3"
+          />
         </div>
 
         {/* Tab Content Wrapper (Centralized Scroll height) */}

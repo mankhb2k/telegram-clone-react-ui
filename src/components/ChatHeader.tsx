@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { DisableShareIcon } from "./icons";
 import { DropdownContent, DropdownItem, DropdownSeparator } from "./ui/Dropdown/Dropdown";
+import { Avatar } from "./ui/Avatar/Avatar";
 import type { Chat } from "../types";
 
 export interface ChatHeaderProps {
@@ -41,19 +42,13 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         className="flex items-center gap-3 cursor-pointer flex-1 min-w-0"
         onClick={() => setIsRightPanelOpen(!isRightPanelOpen)}
       >
-        {activeChat.avatarUrl ? (
-          <img
-            src={activeChat.avatarUrl}
-            alt={activeChat.name}
-            className="w-[38px] h-[38px] rounded-full object-cover flex-shrink-0"
-          />
-        ) : (
-          <div
-            className={`w-[38px] h-[38px] rounded-full flex items-center justify-center font-bold text-white uppercase flex-shrink-0 ${activeChat.avatarBg || "bg-gray-400"}`}
-          >
-            {activeChat.avatarText}
-          </div>
-        )}
+        <Avatar
+          src={activeChat.avatarUrl}
+          alt={activeChat.name}
+          text={activeChat.avatarText}
+          bg={activeChat.avatarBg}
+          size="sm"
+        />
         <div className="flex flex-col min-w-0 gap-[1.5px] justify-center">
           <span className="font-bold text-base text-[#08060d] leading-none truncate">
             {activeChat.name}
