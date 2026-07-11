@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef, useEffect } from "react";
+import React, { createContext, useContext, useRef, useEffect, useState } from "react";
 
 interface TabsContextProps {
   value: string;
@@ -49,8 +49,56 @@ export const TabsList: React.FC<TabsListProps> = ({
 }) => {
   const { value, variant } = useTabs();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [backdropStyle, setBackdropStyle] = useState({
+    left: 0,
+    width: 0,
+    height: 0,
+    top: 0,
+  });
+  const [mounted, setMounted] = useState(false);
 
-  // Scroll active tab to center of container when value changes
+  // Measure and update the sliding backdrop's coordinates
+  const updateBackdrop = () => {
+    const container = containerRef.current;
+    if (container) {
+      const activeEl = container.querySelector("[data-state='active']") as HTMLElement;
+      if (activeEl) {
+        setBackdropStyle({
+          left: activeEl.offsetLeft,
+          width: activeEl.clientWidth,
+          height: activeEl.clientHeight,
+          top: activeEl.offsetTop,
+        });
+      }
+    }
+  };
+
+  // Re-measure backdrop position whenever the active value changes
+  useEffect(() => {
+    updateBackdrop();
+    if (!mounted) {
+      // Prevent transition animation on first mount
+      const timer = setTimeout(() => setMounted(true), 50);
+      return () => clearTimeout(timer);
+    }
+  }, [value]);
+
+  // Handle container resizing and layouts
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      window.addEventListener("resize", updateBackdrop);
+      const resizeObserver = new ResizeObserver(() => updateBackdrop());
+      resizeObserver.observe(container);
+
+      return () => {
+        window.removeEventListener("resize", updateBackdrop);
+        resizeObserver.disconnect();
+      };
+    }
+  }, []);
+
+  // Scroll active tab into view centered inside the container
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
@@ -81,6 +129,21 @@ export const TabsList: React.FC<TabsListProps> = ({
 
   return (
     <div className={wrapperClasses}>
+      {/* Sliding Backdrop */}
+      {backdropStyle.width > 0 && (
+        <div
+          className={`absolute bg-blue-light rounded-full pointer-events-none z-10 ${
+            mounted ? "transition-all duration-200 ease-out" : ""
+          }`}
+          style={{
+            left: `${backdropStyle.left}px`,
+            width: `${backdropStyle.width}px`,
+            height: `${backdropStyle.height}px`,
+            top: `${backdropStyle.top}px`,
+          }}
+        />
+      )}
+
       <div
         ref={containerRef}
         className={`${containerClasses} ${className}`}
@@ -107,12 +170,12 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
 
   const getTriggerClasses = () => {
     if (variant === "capsule") {
-      return `px-4 py-1.5 rounded-full whitespace-nowrap cursor-pointer transition-colors ${
-        isActive ? "bg-blue-light text-blue" : "hover:text-gray-700 text-gray-400"
+      return `relative px-4 py-1.5 rounded-full whitespace-nowrap cursor-pointer transition-colors z-20 ${
+        isActive ? "text-blue" : "hover:text-gray-700 text-gray-400"
       }`;
     } else {
-      return `px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap cursor-pointer ${
-        isActive ? "bg-blue-light text-blue" : "hover:bg-gray-100 text-gray-500"
+      return `relative px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap cursor-pointer z-20 ${
+        isActive ? "text-blue" : "hover:bg-gray-100 text-gray-500"
       }`;
     }
   };
