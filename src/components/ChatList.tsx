@@ -48,7 +48,7 @@ export const ChatList: React.FC<ChatListProps> = ({
   });
 
   return (
-    <div className="w-[22.5rem] md:w-[23.75rem] bg-white rounded-2xl shadow-lg flex flex-col flex-shrink-0 overflow-hidden">
+    <div className="w-[22.5rem] md:w-[23.75rem] bg-white rounded-2xl shadow-lg flex flex-col flex-shrink-0">
       {/* Top Header */}
       <div className="p-3 pb-2 flex flex-col gap-2.5">
         <div className="flex items-center gap-3">
@@ -148,7 +148,7 @@ export const ChatList: React.FC<ChatListProps> = ({
       </div>
 
       {/* Chat List Scroll Container */}
-      <div className="flex-1 overflow-y-auto py-1.5 flex flex-col gap-0.5">
+      <div className="flex-1 overflow-y-auto py-1.5 flex flex-col gap-0.5 rounded-b-2xl">
         {filteredChats.map((chat) => {
           const isSelected = chat.id === activeChatId;
           const lastMsg = chat.messages[chat.messages.length - 1];
