@@ -111,8 +111,7 @@ export const DropdownSub: React.FC<{ children: React.ReactNode }> = ({ children 
   );
 };
 
-// Submenu Trigger
-export interface DropdownSubTriggerProps extends DropdownItemProps {}
+export type DropdownSubTriggerProps = DropdownItemProps;
 
 export const DropdownSubTrigger: React.FC<DropdownSubTriggerProps> = ({
   icon,

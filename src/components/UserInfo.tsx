@@ -142,7 +142,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
               <div className="grid grid-cols-3 gap-[2px] px-3">
                 {activeChat.sharedMedia.map((url, idx) => (
                   <div
-                    key={idx}
+                    key={url}
                     className="aspect-square bg-gray-100 overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
                   >
                     <img

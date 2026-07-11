@@ -13,6 +13,6 @@ export const isEmojiOnly = (text: string) => {
   // Check if it contains at least one emoji or symbol.
   // Emojis are generally represented by surrogate pairs in D800-DFFF, or symbols in miscellaneous symbol/pictograph ranges.
   const emojiRegex =
-    /[\uD800-\uDBFF][\uDC00-\uDFFF]|\u2600-\u27BF|[\u3000-\u303F]|[\u00ae\u00a9\u20e3]/;
+    /[\uD800-\uDBFF][\uDC00-\uDFFF]|\u2600-\u27BF|[\u3000-\u303F]|[\u00ae\u00a9]|\u20e3/;
   return emojiRegex.test(trimmed);
 };

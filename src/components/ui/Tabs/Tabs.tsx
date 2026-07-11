@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef, useEffect, useState } from "react";
+import React, { createContext, useContext, useRef, useEffect, useState, useCallback } from "react";
 
 interface TabsContextProps {
   value: string;
@@ -58,7 +58,7 @@ export const TabsList: React.FC<TabsListProps> = ({
   const [mounted, setMounted] = useState(false);
 
   // Measure and update the sliding backdrop's coordinates
-  const updateBackdrop = () => {
+  const updateBackdrop = useCallback(() => {
     const container = containerRef.current;
     if (container) {
       const activeEl = container.querySelector("[data-state='active']") as HTMLElement;
@@ -71,7 +71,7 @@ export const TabsList: React.FC<TabsListProps> = ({
         });
       }
     }
-  };
+  }, []);
 
   // Re-measure backdrop position whenever the active value changes
   useEffect(() => {
@@ -81,7 +81,7 @@ export const TabsList: React.FC<TabsListProps> = ({
       const timer = setTimeout(() => setMounted(true), 50);
       return () => clearTimeout(timer);
     }
-  }, [value]);
+  }, [value, mounted, updateBackdrop]);
 
   // Handle container resizing and layouts
   useEffect(() => {
@@ -96,7 +96,7 @@ export const TabsList: React.FC<TabsListProps> = ({
         resizeObserver.disconnect();
       };
     }
-  }, []);
+  }, [updateBackdrop]);
 
   // Scroll active tab into view centered inside the container
   useEffect(() => {

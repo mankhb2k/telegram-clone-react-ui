@@ -7,7 +7,7 @@ import { UserInfo } from "./components/UserInfo";
 import type { Chat, Message } from "./types";
 import { initialChats } from "./mockData";
 
-export default function App() {
+export function App() {
   const [activeChatId, setActiveChatId] = useState<string>("van_chay");
   const [isRightPanelOpen, setIsRightPanelOpen] = useState<boolean>(true);
   const [chats, setChats] = useState<Chat[]>(initialChats);
