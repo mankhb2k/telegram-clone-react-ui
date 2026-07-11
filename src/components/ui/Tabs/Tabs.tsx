@@ -119,8 +119,8 @@ export const TabsList: React.FC<TabsListProps> = ({
 
   const containerClasses =
     variant === "capsule"
-      ? "flex gap-0.5 p-1 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500"
-      : "flex gap-2 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500 py-1";
+      ? "relative flex gap-0.5 p-1 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500"
+      : "relative flex gap-2 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500 py-1";
 
   const wrapperClasses =
     variant === "capsule"
@@ -129,25 +129,24 @@ export const TabsList: React.FC<TabsListProps> = ({
 
   return (
     <div className={wrapperClasses}>
-      {/* Sliding Backdrop */}
-      {backdropStyle.width > 0 && (
-        <div
-          className={`absolute bg-blue-light rounded-full pointer-events-none z-10 ${
-            mounted ? "transition-all duration-200 ease-out" : ""
-          }`}
-          style={{
-            left: `${backdropStyle.left}px`,
-            width: `${backdropStyle.width}px`,
-            height: `${backdropStyle.height}px`,
-            top: `${backdropStyle.top}px`,
-          }}
-        />
-      )}
-
       <div
         ref={containerRef}
         className={`${containerClasses} ${className}`}
       >
+        {/* Sliding Backdrop */}
+        {backdropStyle.width > 0 && (
+          <div
+            className={`absolute bg-blue-light rounded-full pointer-events-none z-10 ${
+              mounted ? "transition-all duration-200 ease-out" : ""
+            }`}
+            style={{
+              left: `${backdropStyle.left}px`,
+              width: `${backdropStyle.width}px`,
+              height: `${backdropStyle.height}px`,
+              top: `${backdropStyle.top}px`,
+            }}
+          />
+        )}
         {children}
       </div>
     </div>
