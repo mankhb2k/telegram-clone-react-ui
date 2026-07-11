@@ -76,7 +76,7 @@ export const ScrollTabs: React.FC<ScrollTabsProps> = ({
   // Predefined container and tab classes based on variants
   const containerClasses =
     variant === "capsule"
-      ? "bg-white rounded-full shadow-sm flex gap-0.5 p-1 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500"
+      ? "flex gap-0.5 p-1 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500"
       : "flex gap-2 overflow-x-auto hide-scrollbar text-md font-semibold text-gray-500 py-1";
 
   const getTabClasses = (isActive: boolean) => {
@@ -91,43 +91,46 @@ export const ScrollTabs: React.FC<ScrollTabsProps> = ({
     }
   };
 
+  const wrapperClasses =
+    variant === "capsule"
+      ? "relative bg-white rounded-full shadow-sm overflow-hidden"
+      : "relative";
+
   return (
-    <div className={`relative w-full ${className}`}>
-      {/* Left solid-to-transparent overlay */}
-      {showLeftFade && (
-        <div
-          className={`absolute left-0 top-0 bottom-0 w-8 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent z-10 ${
-            variant === "capsule" ? "rounded-l-full ml-[1px] my-[1px]" : ""
-          }`}
-        />
-      )}
+    <div className={`w-full ${className}`}>
+      <div className={wrapperClasses}>
+        {/* Left solid-to-transparent overlay */}
+        {showLeftFade && (
+          <div
+            className="absolute left-0 top-0 bottom-0 w-8 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent z-10"
+          />
+        )}
 
-      {/* Right solid-to-transparent overlay */}
-      {showRightFade && (
-        <div
-          className={`absolute right-0 top-0 bottom-0 w-8 pointer-events-none bg-gradient-to-l from-white via-white/80 to-transparent z-10 ${
-            variant === "capsule" ? "rounded-r-full mr-[1px] my-[1px]" : ""
-          }`}
-        />
-      )}
+        {/* Right solid-to-transparent overlay */}
+        {showRightFade && (
+          <div
+            className="absolute right-0 top-0 bottom-0 w-8 pointer-events-none bg-gradient-to-l from-white via-white/80 to-transparent z-10"
+          />
+        )}
 
-      <div
-        ref={containerRef}
-        className={containerClasses}
-      >
-        {tabs.map((tab) => {
-          const isActive = tab === activeTab;
-          return (
-            <button
-              key={tab}
-              data-active={isActive}
-              onClick={() => handleTabClick(tab)}
-              className={getTabClasses(isActive)}
-            >
-              {tab}
-            </button>
-          );
-        })}
+        <div
+          ref={containerRef}
+          className={containerClasses}
+        >
+          {tabs.map((tab) => {
+            const isActive = tab === activeTab;
+            return (
+              <button
+                key={tab}
+                data-active={isActive}
+                onClick={() => handleTabClick(tab)}
+                className={getTabClasses(isActive)}
+              >
+                {tab}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
