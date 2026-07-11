@@ -3,6 +3,7 @@ import { X, Pen, Bell, ArrowLeft } from "lucide-react";
 import { PhoneIcon } from "./icons";
 import { Avatar } from "./ui/Avatar/Avatar";
 import { Tabs, TabsList, TabsTrigger } from "./ui/Tabs/Tabs";
+import { Switch } from "./ui/Switch/Switch";
 import type { Chat } from "../types";
 
 export interface UserInfoProps {
@@ -105,15 +106,10 @@ export const UserInfo: React.FC<UserInfoProps> = ({
                 Notifications
               </span>
             </div>
-            {/* Custom Toggle Switch to match Telegram style */}
-            <div
-              onClick={onToggleNotifications}
-              className={`w-9 h-5 rounded-full relative transition-colors duration-200 cursor-pointer ${activeChat.notifications ? "bg-[#3390ec]" : "bg-gray-200"}`}
-            >
-              <div
-                className={`absolute top-[3px] w-[14px] h-[14px] bg-white rounded-full shadow-sm transition-transform duration-200 ${activeChat.notifications ? "left-[19px]" : "left-[3px]"}`}
-              />
-            </div>
+            <Switch
+              checked={activeChat.notifications}
+              onCheckedChange={onToggleNotifications}
+            />
           </div>
         </div>
 

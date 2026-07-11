@@ -4,6 +4,7 @@ import { DoubleCheck, SingleCheck } from "./icons";
 import { DropdownContent, DropdownItem, DropdownSeparator, DropdownSub, DropdownSubTrigger, DropdownSubContent } from "./ui/Dropdown/Dropdown";
 import { Avatar } from "./ui/Avatar/Avatar";
 import { Tabs, TabsList, TabsTrigger } from "./ui/Tabs/Tabs";
+import { Switch } from "./ui/Switch/Switch";
 import type { Chat } from "../types";
 
 export interface ChatListProps {
@@ -21,6 +22,7 @@ export const ChatList: React.FC<ChatListProps> = ({
   const [activeTab, setActiveTab] = useState<string>("All");
   const [isSidebarMenuOpen, setIsSidebarMenuOpen] = useState(false);
   const [isPenMenuOpen, setIsPenMenuOpen] = useState(false);
+  const [isNightMode, setIsNightMode] = useState(false);
 
   // Real-time Chat List Filtering
   const filteredChats = chats.filter((chat) => {
@@ -83,7 +85,15 @@ export const ChatList: React.FC<ChatListProps> = ({
               <DropdownSub>
                 <DropdownSubTrigger icon={<MoreVertical size={18} />} label="More" />
                 <DropdownSubContent>
-                  <DropdownItem icon={<Moon size={18} />} label="Night Mode" />
+                  <DropdownItem
+                    icon={<Moon size={18} />}
+                    label={
+                      <div className="flex items-center justify-between w-full">
+                        <span>Night Mode</span>
+                        <Switch checked={isNightMode} onCheckedChange={setIsNightMode} />
+                      </div>
+                    }
+                  />
                   <DropdownItem icon={<HelpCircle size={18} />} label="Help" />
                 </DropdownSubContent>
               </DropdownSub>
