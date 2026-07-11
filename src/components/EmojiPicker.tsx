@@ -59,8 +59,13 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
 }) => {
   const pickerRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeTab, setActiveTab] = useState("Smileys");
+  const [activeTab, setActiveTab] = useState("Recent"); // Start with Recent tab active
   const [recentEmojis, setRecentEmojis] = useState<EmojiItem[]>([]);
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const categoryRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const isScrollingProgrammaticRef = useRef(false);
+  const scrollTimeoutRef = useRef<number | null>(null);
 
   // Load recent emojis from localStorage
   useEffect(() => {
@@ -100,6 +105,15 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
+
+  // Clean up timer on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current !== null) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleSelectEmoji = (item: EmojiItem) => {
     // Call parent select
@@ -142,17 +156,67 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
     return results;
   }, [searchQuery]);
 
-  // Determine current items to render
-  const currentItems = useMemo(() => {
-    if (searchResults !== null) return searchResults;
-    if (activeTab === "Recent") return recentEmojis;
-    return emojiData[activeTab as keyof EmojiData] || [];
-  }, [activeTab, searchResults, recentEmojis]);
+  const handleTabClick = (tabId: string) => {
+    setActiveTab(tabId);
+    
+    const scrollContainer = scrollContainerRef.current;
+    const targetEl = categoryRefs.current[tabId];
+    
+    if (scrollContainer && targetEl) {
+      isScrollingProgrammaticRef.current = true;
+      if (scrollTimeoutRef.current !== null) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      const top = targetEl.offsetTop - scrollContainer.offsetTop;
+      scrollContainer.scrollTo({ top, behavior: "smooth" });
+      
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        isScrollingProgrammaticRef.current = false;
+      }, 500);
+    }
+  };
+
+  const handleScroll = () => {
+    if (isScrollingProgrammaticRef.current) return;
+    
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+    
+    const scrollTop = scrollContainer.scrollTop;
+    const scrollHeight = scrollContainer.scrollHeight;
+    const clientHeight = scrollContainer.clientHeight;
+    
+    // Bottom edge case: if scrolled to the end, activate the last tab (Flags)
+    if (scrollTop + clientHeight >= scrollHeight - 5) {
+      if (!searchQuery) {
+        setActiveTab("Flags");
+      }
+      return;
+    }
+
+    let currentActiveTab = activeTab;
+    const categoryIds = searchQuery ? [] : TABS.map((t) => t.id);
+    
+    for (const id of categoryIds) {
+      const el = categoryRefs.current[id];
+      if (el) {
+        const top = el.offsetTop - scrollContainer.offsetTop;
+        if (scrollTop >= top - 20) {
+          currentActiveTab = id;
+        }
+      }
+    }
+    
+    if (currentActiveTab !== activeTab) {
+      setActiveTab(currentActiveTab);
+    }
+  };
 
   return (
     <div
       ref={pickerRef}
-      className="absolute bottom-[calc(100%+12px)] left-0 w-[350px] h-[400px] bg-white rounded-2xl shadow-xl border border-gray-200/50 flex flex-col overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-2 duration-200 select-none"
+      className="absolute bottom-[calc(100%+12px)] left-0 w-[390px] h-[400px] bg-white rounded-2xl shadow-xl border border-gray-200/50 flex flex-col overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-2 duration-200 select-none"
       onClick={(e) => e.stopPropagation()}
     >
       {/* Search Input */}
@@ -171,7 +235,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
 
       {/* Category Tabs */}
       {!searchQuery && (
-        <div className="flex items-center gap-1.5 px-3 py-2 border-b border-gray-100 overflow-x-auto scrollbar-none flex-shrink-0">
+        <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 flex-shrink-0">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -180,7 +244,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
                 key={tab.id}
                 type="button"
                 title={tab.label}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleTabClick(tab.id)}
                 className={`p-1.5 rounded-lg transition-all flex-shrink-0 cursor-pointer ${
                   isActive
                     ? "bg-[#e4efff] text-[#3390ec]"
@@ -195,53 +259,100 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
       )}
 
       {/* Emoji Scroll Area */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 min-h-0 custom-scrollbar">
-        {searchQuery && (
-          <div className="text-xs font-semibold text-gray-400 mb-2.5 uppercase tracking-wider">
-            Kết quả tìm kiếm ({currentItems.length})
-          </div>
-        )}
-        
-        {!searchQuery && (
-          <div className="text-xs font-semibold text-gray-400 mb-2.5 uppercase tracking-wider">
-            {TABS.find((t) => t.id === activeTab)?.label}
-          </div>
-        )}
-
-        {currentItems.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-sm text-gray-400 pt-8">
-            Không tìm thấy biểu tượng nào
-          </div>
+      <div
+        ref={scrollContainerRef}
+        onScroll={handleScroll}
+        className="flex-1 overflow-y-auto min-h-0 custom-scrollbar"
+      >
+        {searchQuery ? (
+          // Search view
+          <>
+            <div className="text-xs font-semibold text-gray-400 px-4 py-2.5 uppercase tracking-wider">
+              Kết quả tìm kiếm ({searchResults?.length || 0})
+            </div>
+            {!searchResults || searchResults.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-full text-sm text-gray-400 pt-8">
+                Không tìm thấy biểu tượng nào
+              </div>
+            ) : (
+              <div className="grid grid-cols-8 gap-2.5 px-4 pb-3">
+                {searchResults.map((item) => (
+                  <button
+                    key={item.emoji}
+                    type="button"
+                    onClick={() => handleSelectEmoji(item)}
+                    className="aspect-square flex items-center justify-center p-1 rounded-lg hover:bg-gray-100 transition-all active:scale-90 cursor-pointer"
+                    title={item.name}
+                  >
+                    <img
+                      src={`/emoji/${item.relativePath}`}
+                      alt={item.emoji}
+                      className="w-7 h-7 object-contain select-none pointer-events-none"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        const parent = target.parentElement;
+                        if (parent) {
+                          const span = document.createElement("span");
+                          span.className = "text-xl leading-none select-none";
+                          span.innerText = item.emoji;
+                          parent.replaceChild(span, target);
+                        }
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
         ) : (
-          <div className="grid grid-cols-7 gap-2.5">
-            {currentItems.map((item) => (
-              <button
-                key={item.codePoint}
-                type="button"
-                onClick={() => handleSelectEmoji(item)}
-                className="aspect-square flex items-center justify-center p-1 rounded-lg hover:bg-gray-100 transition-all active:scale-90 cursor-pointer"
-                title={item.name}
+          // Multi-category vertically stacked list view
+          TABS.map((tab) => {
+            const items = tab.id === "Recent" ? recentEmojis : (emojiData[tab.id as keyof EmojiData] || []);
+            if (items.length === 0) return null;
+            
+            return (
+              <div
+                key={tab.id}
+                ref={(el) => {
+                  categoryRefs.current[tab.id] = el;
+                }}
+                className="mb-5"
               >
-                <img
-                  src={`/emoji/${item.relativePath}`}
-                  alt={item.emoji}
-                  className="w-7 h-7 object-contain select-none pointer-events-none"
-                  loading="lazy"
-                  onError={(e) => {
-                    // Fallback to text rendering if the Noto image fails to load
-                    const target = e.currentTarget;
-                    const parent = target.parentElement;
-                    if (parent) {
-                      const span = document.createElement("span");
-                      span.className = "text-xl leading-none select-none";
-                      span.innerText = item.emoji;
-                      parent.replaceChild(span, target);
-                    }
-                  }}
-                />
-              </button>
-            ))}
-          </div>
+                <div className="text-xs font-semibold text-gray-400 px-4 py-2.5 uppercase tracking-wider">
+                  {tab.label}
+                </div>
+                <div className="grid grid-cols-8 gap-2.5 px-4 pt-1">
+                  {items.map((item) => (
+                    <button
+                      key={item.emoji}
+                      type="button"
+                      onClick={() => handleSelectEmoji(item)}
+                      className="aspect-square flex items-center justify-center p-1 rounded-lg hover:bg-gray-100 transition-all active:scale-90 cursor-pointer"
+                      title={item.name}
+                    >
+                      <img
+                        src={`/emoji/${item.relativePath}`}
+                        alt={item.emoji}
+                        className="w-7 h-7 object-contain select-none pointer-events-none"
+                        loading="lazy"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          const parent = target.parentElement;
+                          if (parent) {
+                            const span = document.createElement("span");
+                            span.className = "text-xl leading-none select-none";
+                            span.innerText = item.emoji;
+                            parent.replaceChild(span, target);
+                          }
+                        }}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })
         )}
       </div>
     </div>

@@ -3,6 +3,7 @@ import { DoubleCheck, SingleCheck } from "./icons";
 import { isEmojiOnly } from "../utils";
 import type { Message } from "../types";
 import emojiListMap from "./emoji-list.json";
+import { AnimatedEmoji } from "./AnimatedEmoji";
 
 const LOCAL_EMOJIS = new Set(Object.keys(emojiListMap));
 
@@ -26,7 +27,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
   }, [activeChatId, messages]);
 
   return (
-    <div className="flex-1 bg-transparent p-4 flex flex-col overflow-y-auto min-h-0">
+    <div className="flex-1 bg-transparent -mt-[64px] -mb-[68px] pt-[64px] pb-[68px] px-4 flex flex-col overflow-y-auto min-h-0 chat-fade-mask">
       <div className="w-full max-w-[720px] mx-auto flex flex-col gap-2 mt-auto">
         {messages.map((message) => {
           const isMe = message.sender === "me";
@@ -55,7 +56,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
                   {canAnimateAll ? (
                     <div className="flex gap-1.5 items-center">
                       {emojiItems.map((item) => (
-                        <img
+                        <AnimatedEmoji
                           key={item.key}
                           src={item.localPath}
                           alt={item.emoji}

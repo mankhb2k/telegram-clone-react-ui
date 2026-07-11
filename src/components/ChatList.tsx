@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Menu, Search, Plus, User, Bookmark, Users, Wallet, Settings, MoreVertical, SquarePen, MessageSquare, Moon, HelpCircle } from "lucide-react";
+import { Menu, Search, Plus, User, Bookmark, Users, Settings, MoreVertical, SquarePen, Moon, HelpCircle, Palette } from "lucide-react";
 import { DoubleCheck, SingleCheck } from "./icons";
 import { DropdownContent, DropdownItem, DropdownSeparator, DropdownSub, DropdownSubTrigger, DropdownSubContent } from "./ui/Dropdown/Dropdown";
 import { Avatar } from "./ui/Avatar/Avatar";
 import { Tabs, TabsList, TabsTrigger } from "./ui/Tabs/Tabs";
-import { Switch } from "./ui/Switch/Switch";
+
 import type { Chat } from "../types";
 
 export interface ChatListProps {
@@ -23,6 +23,7 @@ export const ChatList: React.FC<ChatListProps> = ({
   const [isSidebarMenuOpen, setIsSidebarMenuOpen] = useState(false);
   const [isPenMenuOpen, setIsPenMenuOpen] = useState(false);
   const [isNightMode, setIsNightMode] = useState(false);
+  const [appearance, setAppearance] = useState<"system" | "light" | "dark">("system");
 
   // Real-time Chat List Filtering
   const filteredChats = chats.filter((chat) => {
@@ -80,19 +81,34 @@ export const ChatList: React.FC<ChatListProps> = ({
               <DropdownItem icon={<User size={18} />} label="My Profile" />
               <DropdownItem icon={<Bookmark size={18} />} label="Saved Messages" />
               <DropdownItem icon={<Users size={18} />} label="Contacts" />
-              <DropdownItem icon={<Wallet size={18} />} label="Wallet" />
+              <DropdownSub>
+                <DropdownSubTrigger icon={<Palette size={18} />} label="Theme" />
+                <DropdownSubContent>
+                  <DropdownItem
+                    label="System"
+                    checked={appearance === "system"}
+                    onClick={() => setAppearance("system")}
+                  />
+                  <DropdownItem
+                    label="Light"
+                    checked={appearance === "light"}
+                    onClick={() => setAppearance("light")}
+                  />
+                  <DropdownItem
+                    label="Dark"
+                    checked={appearance === "dark"}
+                    onClick={() => setAppearance("dark")}
+                  />
+                </DropdownSubContent>
+              </DropdownSub>
               <DropdownItem icon={<Settings size={18} />} label="Settings" />
               <DropdownSub>
                 <DropdownSubTrigger icon={<MoreVertical size={18} />} label="More" />
                 <DropdownSubContent>
                   <DropdownItem
                     icon={<Moon size={18} />}
-                    label={
-                      <div className="flex items-center justify-between w-full">
-                        <span>Night Mode</span>
-                        <Switch checked={isNightMode} onCheckedChange={setIsNightMode} />
-                      </div>
-                    }
+                    label="Night Mode"
+                    onClick={() => setIsNightMode(!isNightMode)}
                   />
                   <DropdownItem icon={<HelpCircle size={18} />} label="Help" />
                 </DropdownSubContent>
@@ -131,13 +147,11 @@ export const ChatList: React.FC<ChatListProps> = ({
               align="right"
             >
               <DropdownItem
-                icon={<MessageSquare size={18} />}
-                label="Đoạn chat mới"
+                label="New Chat"
                 onClick={() => setIsPenMenuOpen(false)}
               />
               <DropdownItem
-                icon={<Users size={18} />}
-                label="Tạo nhóm"
+                label="New Group"
                 onClick={() => setIsPenMenuOpen(false)}
               />
             </DropdownContent>

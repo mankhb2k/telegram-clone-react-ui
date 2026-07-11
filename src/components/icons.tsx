@@ -1,33 +1,12 @@
 
-import { Share2 } from "lucide-react";
+import { Share2, Check, CheckCheck } from "lucide-react";
 
-// Custom SVGs for Telegram UI icons to match 100% pixel-perfection
 export const DoubleCheck = ({ className = "text-[#4ec163]" }) => (
-  <svg
-    className={`w-[15px] h-[15px] inline-block ${className}`}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="3"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M2 12l5.25 5 10.75-10.5M8 12l3.25 3 6.75-6.5" />
-  </svg>
+  <CheckCheck className={`w-[15px] h-[15px] inline-block ${className} stroke-[2.5]`} />
 );
 
 export const SingleCheck = ({ className = "text-gray-400" }) => (
-  <svg
-    className={`w-[15px] h-[15px] inline-block ${className}`}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="3"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M20 6L9 17l-5-5" />
-  </svg>
+  <Check className={`w-[15px] h-[15px] inline-block ${className} stroke-[2.5]`} />
 );
 
 // Phone Icon to match Telegram style

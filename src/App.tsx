@@ -97,7 +97,7 @@ export function App() {
   };
 
   return (
-    <div className="flex h-screen w-screen bg-[#7da37b] p-3 gap-3 overflow-hidden font-sans select-none">
+    <div className="flex h-screen w-screen bg-[#e7ebf0] p-3 gap-3 overflow-hidden font-sans select-none">
       {/* Styles for custom backgrounds and bubbles */}
       <style
         dangerouslySetInnerHTML={{

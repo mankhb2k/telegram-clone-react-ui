@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Check } from "lucide-react";
 
 export interface DropdownContentProps {
   isOpen: boolean;
@@ -32,7 +32,7 @@ export const DropdownContent: React.FC<DropdownContentProps> = ({
           align === "right"
             ? "right-0 origin-top-right"
             : "left-0 origin-top-left"
-        } z-50 w-[220px] bg-white/95 backdrop-blur-md rounded-dropdown shadow-[0_4px_24px_rgba(0,0,0,0.12)] border border-gray-100/30 p-[4px] text-sm text-gray-600 text-left font-medium animate-in fade-in zoom-in-95 duration-100 select-none ${className}`}
+        } z-50 w-max bg-white/95 backdrop-blur-md rounded-dropdown shadow-[0_4px_24px_rgba(0,0,0,0.12)] border border-gray-100/30 p-[4px] text-sm text-gray-600 text-left font-medium animate-in fade-in zoom-in-95 duration-100 select-none ${className}`}
       >
         {children}
       </div>
@@ -46,6 +46,8 @@ export interface DropdownItemProps {
   onClick?: () => void;
   className?: string;
   danger?: boolean;
+  checked?: boolean;
+  rightElement?: React.ReactNode;
 }
 
 export const DropdownItem: React.FC<DropdownItemProps> = ({
@@ -54,24 +56,41 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
   onClick,
   className = "",
   danger = false,
+  checked = false,
+  rightElement,
 }) => {
   return (
     <button
       onClick={onClick}
-      className={`w-full px-3 py-2 flex items-center gap-3.5 rounded-dropdown-item transition-all cursor-pointer border-none bg-transparent text-left font-medium ${
+      className={`w-full pl-3 pr-1.5 py-2 flex items-center justify-between rounded-dropdown-item transition-all cursor-pointer border-none bg-transparent text-left font-medium ${
         danger
           ? "hover:bg-red-50 active:bg-red-100 text-red-500"
           : "hover:bg-black/5 active:bg-black/10 text-gray-700"
       } ${className}`}
     >
-      {icon && (
+      <div className="flex items-center gap-3.5 flex-1 min-w-0 pr-8">
+        {icon && (
+          <span
+            className={`${danger ? "text-red-500" : "text-gray-500"} [&>svg]:stroke-[2] flex-shrink-0`}
+          >
+            {icon}
+          </span>
+        )}
+        <span className="truncate">{label}</span>
+      </div>
+      {rightElement ? (
+        <span className="text-gray-400 flex-shrink-0 flex items-center justify-center [&>svg]:stroke-[2]">
+          {rightElement}
+        </span>
+      ) : (
         <span
-          className={`${danger ? "text-red-500" : "text-gray-500"} [&>svg]:stroke-[2]`}
+          className={`text-[#3390ec] flex-shrink-0 flex items-center justify-center ${
+            checked ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
         >
-          {icon}
+          <Check size={16} className="stroke-[2.5]" />
         </span>
       )}
-      <span className="flex-1">{label}</span>
     </button>
   );
 };
@@ -86,25 +105,28 @@ interface DropdownSubContextProps {
   setIsOpen: (open: boolean) => void;
 }
 
-const DropdownSubContext = createContext<DropdownSubContextProps | undefined>(undefined);
+const DropdownSubContext = createContext<DropdownSubContextProps | undefined>(
+  undefined,
+);
 
 const useDropdownSub = () => {
   const context = useContext(DropdownSubContext);
   if (!context) {
-    throw new Error("DropdownSub components must be rendered within a <DropdownSub /> provider");
+    throw new Error(
+      "DropdownSub components must be rendered within a <DropdownSub /> provider",
+    );
   }
   return context;
 };
 
 // Submenu Container
-export const DropdownSub: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const DropdownSub: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <DropdownSubContext.Provider value={{ isOpen, setIsOpen }}>
-      <div
-        className="relative w-full"
-        onMouseLeave={() => setIsOpen(false)}
-      >
+      <div className="relative w-full" onMouseLeave={() => setIsOpen(false)}>
         {children}
       </div>
     </DropdownSubContext.Provider>
@@ -125,13 +147,16 @@ export const DropdownSubTrigger: React.FC<DropdownSubTriggerProps> = ({
     <div onMouseEnter={() => setIsOpen(true)}>
       <DropdownItem
         icon={icon}
-        label={
-          <div className="flex items-center justify-between w-full">
-            <span>{label}</span>
-            <ChevronRight size={16} className="text-gray-400" />
-          </div>
+        label={label}
+        rightElement={<ChevronRight size={16} className="text-gray-400" />}
+        onClick={
+          onClick
+            ? () => {
+                onClick();
+                setIsOpen(!isOpen);
+              }
+            : () => setIsOpen(!isOpen)
         }
-        onClick={onClick ? () => { onClick(); setIsOpen(!isOpen); } : () => setIsOpen(!isOpen)}
         className={className}
       />
     </div>
@@ -154,7 +179,7 @@ export const DropdownSubContent: React.FC<DropdownSubContentProps> = ({
 
   return (
     <div
-      className={`absolute left-[calc(100%-8px)] top-[-4px] z-50 w-max min-w-[180px] max-w-[240px] bg-white/95 backdrop-blur-md rounded-dropdown shadow-[0_4px_24px_rgba(0,0,0,0.12)] border border-gray-100/30 p-[4px] text-sm text-gray-600 text-left font-medium animate-in fade-in zoom-in-95 duration-100 select-none ${className}`}
+      className={`absolute left-[calc(100%-4px)] top-[-4px] z-50 w-max bg-white/95 backdrop-blur-md rounded-dropdown shadow-[0_4px_24px_rgba(0,0,0,0.12)] border border-gray-100/30 p-[4px] text-sm text-gray-600 text-left font-medium animate-in fade-in zoom-in-95 duration-100 select-none ${className}`}
     >
       {children}
     </div>
