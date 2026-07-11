@@ -138,10 +138,10 @@ export function App() {
 
       {/* ================= COLUMN 3: USER INFO PANEL ================= */}
       <div
-        className={`transition-all duration-300 ease-in-out flex flex-shrink-0 overflow-hidden ${
+        className={`transition-all duration-300 ease-in-out flex flex-shrink-0 overflow-hidden rounded-2xl ${
           isRightPanelOpen
-            ? "w-[22.5rem] lg:w-[28.125rem] opacity-100"
-            : "w-0 opacity-0 pointer-events-none -ml-3"
+            ? "w-[22.5rem] lg:w-[28.125rem] opacity-100 shadow-xl"
+            : "w-0 opacity-0 pointer-events-none -ml-3 shadow-none"
         }`}
       >
         <UserInfo
