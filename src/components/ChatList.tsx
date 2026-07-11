@@ -51,7 +51,7 @@ export const ChatList: React.FC<ChatListProps> = ({
   });
 
   return (
-    <div className="w-[22.5rem] md:w-[23.75rem] bg-white rounded-2xl shadow-lg flex flex-col flex-shrink-0 overflow-hidden">
+    <div className="w-[22.5rem] md:w-[23.75rem] bg-white rounded-2xl shadow-xl flex flex-col flex-shrink-0 overflow-hidden">
       {/* Top Header */}
       <div className="p-3 pb-2 flex flex-col gap-2.5">
         <div className="flex items-center gap-3">

@@ -120,7 +120,7 @@ export function App() {
       />
 
       {/* ================= COLUMN 2: CHAT CONTAINER ================= */}
-      <div className="flex-1 chat-wallpaper rounded-2xl shadow-lg flex flex-col overflow-hidden min-w-0 relative transition-all duration-300 ease-in-out">
+      <div className="flex-1 chat-wallpaper rounded-2xl shadow-xl flex flex-col overflow-hidden min-w-0 relative transition-all duration-300 ease-in-out">
         <ChatHeader
           activeChat={activeChat}
           isRightPanelOpen={isRightPanelOpen}
