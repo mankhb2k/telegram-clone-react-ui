@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Menu, Search, Plus, User, Bookmark, Users, Wallet, Settings, MoreVertical, ChevronRight, SquarePen, MessageSquare } from "lucide-react";
+import { Menu, Search, Plus, User, Bookmark, Users, Wallet, Settings, MoreVertical, SquarePen, MessageSquare, Moon, HelpCircle } from "lucide-react";
 import { DoubleCheck, SingleCheck } from "./icons";
-import { DropdownContent, DropdownItem, DropdownSeparator } from "./ui/Dropdown/Dropdown";
+import { DropdownContent, DropdownItem, DropdownSeparator, DropdownSub, DropdownSubTrigger, DropdownSubContent } from "./ui/Dropdown/Dropdown";
 import { Avatar } from "./ui/Avatar/Avatar";
 import { Tabs, TabsList, TabsTrigger } from "./ui/Tabs/Tabs";
 import type { Chat } from "../types";
@@ -80,15 +80,13 @@ export const ChatList: React.FC<ChatListProps> = ({
               <DropdownItem icon={<Users size={18} />} label="Contacts" />
               <DropdownItem icon={<Wallet size={18} />} label="Wallet" />
               <DropdownItem icon={<Settings size={18} />} label="Settings" />
-              <DropdownItem 
-                icon={<MoreVertical size={18} />} 
-                label={
-                  <div className="flex items-center justify-between w-full">
-                    <span>More</span>
-                    <ChevronRight size={16} className="text-gray-400" />
-                  </div>
-                } 
-              />
+              <DropdownSub>
+                <DropdownSubTrigger icon={<MoreVertical size={18} />} label="More" />
+                <DropdownSubContent>
+                  <DropdownItem icon={<Moon size={18} />} label="Night Mode" />
+                  <DropdownItem icon={<HelpCircle size={18} />} label="Help" />
+                </DropdownSubContent>
+              </DropdownSub>
             </DropdownContent>
           </div>
           <div className="relative flex-1">

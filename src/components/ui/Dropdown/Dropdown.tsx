@@ -1,4 +1,5 @@
-import React from "react";
+import React, { createContext, useContext, useState } from "react";
+import { ChevronRight } from "lucide-react";
 
 export interface DropdownContentProps {
   isOpen: boolean;
@@ -78,3 +79,85 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
 export const DropdownSeparator = () => (
   <div className="h-px bg-gray-100 my-1.5 mx-1"></div>
 );
+
+// Submenu Context
+interface DropdownSubContextProps {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+}
+
+const DropdownSubContext = createContext<DropdownSubContextProps | undefined>(undefined);
+
+const useDropdownSub = () => {
+  const context = useContext(DropdownSubContext);
+  if (!context) {
+    throw new Error("DropdownSub components must be rendered within a <DropdownSub /> provider");
+  }
+  return context;
+};
+
+// Submenu Container
+export const DropdownSub: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <DropdownSubContext.Provider value={{ isOpen, setIsOpen }}>
+      <div
+        className="relative w-full"
+        onMouseLeave={() => setIsOpen(false)}
+      >
+        {children}
+      </div>
+    </DropdownSubContext.Provider>
+  );
+};
+
+// Submenu Trigger
+export interface DropdownSubTriggerProps extends DropdownItemProps {}
+
+export const DropdownSubTrigger: React.FC<DropdownSubTriggerProps> = ({
+  icon,
+  label,
+  className = "",
+  onClick,
+}) => {
+  const { isOpen, setIsOpen } = useDropdownSub();
+
+  return (
+    <div onMouseEnter={() => setIsOpen(true)}>
+      <DropdownItem
+        icon={icon}
+        label={
+          <div className="flex items-center justify-between w-full">
+            <span>{label}</span>
+            <ChevronRight size={16} className="text-gray-400" />
+          </div>
+        }
+        onClick={onClick ? () => { onClick(); setIsOpen(!isOpen); } : () => setIsOpen(!isOpen)}
+        className={className}
+      />
+    </div>
+  );
+};
+
+// Submenu Content Panel
+export interface DropdownSubContentProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const DropdownSubContent: React.FC<DropdownSubContentProps> = ({
+  children,
+  className = "",
+}) => {
+  const { isOpen } = useDropdownSub();
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className={`absolute left-[calc(100%+4px)] top-0 z-50 w-[200px] bg-white/95 backdrop-blur-md rounded-dropdown shadow-[0_4px_24px_rgba(0,0,0,0.12)] border border-gray-100/30 p-[4px] text-md text-gray-600 text-left font-medium animate-in fade-in zoom-in-95 duration-100 select-none ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
