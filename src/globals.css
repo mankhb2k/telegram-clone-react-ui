@@ -49,10 +49,14 @@ body {
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.15);
   border-radius: 3px;
+  border-right: 2px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.3);
+  border-right: 2px solid transparent;
+  background-clip: padding-box;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
@@ -64,14 +68,18 @@ body {
 }
 
 .thin-scrollbar::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 .thin-scrollbar::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.16);
-  border-radius: 2px;
+  border-radius: 3px;
+  border-right: 2px solid transparent;
+  background-clip: padding-box;
 }
 .thin-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.28);
+  border-right: 2px solid transparent;
+  background-clip: padding-box;
 }
 .thin-scrollbar {
   scrollbar-width: thin;
